@@ -17,8 +17,8 @@ class WorkshopERPApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFFB8860B), // Brass Gold
-          primary: const Color(0xFF1E293B),   // Dark Workshop Slate
+          seedColor: const Color(0xFFB8860B),
+          primary: const Color(0xFF1E293B),
         ),
         appBarTheme: const AppBarTheme(
           backgroundColor: Color(0xFF1E293B),
@@ -39,11 +39,11 @@ class WorkerJob {
   final String id;
   final String workerName;
   final String designNo;
-  final String taskType; // Filing, Stone Setting, Polishing, Assembly
+  final String taskType;
   final int piecesIssued;
   int piecesReturned;
   final double wageRatePerPiece;
-  String status; // 'WORKING', 'COMPLETED'
+  String status;
   final DateTime date;
 
   WorkerJob({
@@ -97,9 +97,9 @@ class ClientOrder {
     required this.city,
     required this.itemsSummary,
     required this.totalBill,
-    required this.advancePaid,
+    required this.amountPaid,
     required this.date,
-  }) : amountPaid = advancePaid;
+  });
 
   double get balanceDue => totalBill - amountPaid;
 }
@@ -118,14 +118,13 @@ class WorkshopHomeScreen extends StatefulWidget {
 class _WorkshopHomeScreenState extends State<WorkshopHomeScreen> {
   int _currentIndex = 0;
 
-  // Initial Sample Data for a 50-worker workshop
   final List<WorkerJob> _workerJobs = [
     WorkerJob(
       id: 'JOB-101',
       workerName: 'Ramesh (Karigar #12)',
       designNo: 'RNG-204',
       taskType: 'Stone Setting (AD/CZ)',
-      piecesIssued: 144, // 1 gross
+      piecesIssued: 144,
       piecesReturned: 144,
       wageRatePerPiece: 4.5,
       status: 'COMPLETED',
@@ -192,7 +191,7 @@ class _WorkshopHomeScreenState extends State<WorkshopHomeScreen> {
       city: 'Burrabazar',
       itemsSummary: '10 Bx RNG-204, 5 Bx TOP-12',
       totalBill: 19400,
-      advancePaid: 10000,
+      amountPaid: 10000,
       date: DateTime.now().subtract(const Duration(days: 1)),
     ),
     ClientOrder(
@@ -201,7 +200,7 @@ class _WorkshopHomeScreenState extends State<WorkshopHomeScreen> {
       city: 'Howrah',
       itemsSummary: '4 Bx CHK-88',
       totalBill: 12800,
-      advancePaid: 12800,
+      amountPaid: 12800,
       date: DateTime.now(),
     ),
   ];
@@ -684,7 +683,7 @@ class ClientKhataScreen extends StatelessWidget {
                       city: cityCtrl.text,
                       itemsSummary: itemsCtrl.text,
                       totalBill: total,
-                      advancePaid: paid,
+                      amountPaid: paid,
                       date: DateTime.now(),
                     ));
                     Navigator.pop(ctx);
