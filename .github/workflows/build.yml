@@ -22,15 +22,36 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Assemble Project and Compile APK
+      - name: Compile APK
         run: |
           flutter create my_app
           cp lib/main.dart my_app/lib/main.dart
           cd my_app
           flutter pub add url_launcher
+
+          # -------------------------------------------------------------
+          # 1. SET APP NAME (Change "Jewellery Manager" to your business name)
+          # -------------------------------------------------------------
+          sed -i 's/android:label="my_app"/android:label="MA casting jewellery"/' android/app/src/main/AndroidManifest.xml
+
+          # -------------------------------------------------------------
+          # 2. SET APP ICON (Automatically runs if icon.png is uploaded)
+          # -------------------------------------------------------------
+          if [ -f "../icon.png" ]; then
+            flutter pub add flutter_launcher_icons --dev
+            cat << 'EOF' >> pubspec.yaml
+
+          flutter_launcher_icons:
+            android: "launcher_icon"
+            ios: false
+            image_path: "../icon.png"
+          EOF
+            dart run flutter_launcher_icons
+          fi
+
           flutter build apk --release --no-tree-shake-icons
 
-      - name: Upload Finished APK
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: Jewellery-App-APK
